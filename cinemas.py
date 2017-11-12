@@ -40,15 +40,15 @@ def parse_afisha_list():
 
     movie_data_list = []
     for movie in movie_tag_list:
-            movie_content_tag = movie.find('div', {'class': 'm-disp-table'})
-            movie_title = movie_content_tag.find('a').text
-            movie_description = movie_content_tag.find('p').text
-            cinema_list = movie.find('tbody').find_all('tr', recursive=False)
-            movie_data_list.append({
-                'title': movie_title,
-                'description': movie_description,
-                'cinema_amount': len(cinema_list)
-            })
+        movie_content_tag = movie.find('div', {'class': 'm-disp-table'})
+        movie_title = movie_content_tag.find('a').text
+        movie_description = movie_content_tag.find('p').text
+        cinema_list = movie.find('tbody').find_all('tr', recursive=False)
+        movie_data_list.append({
+            'title': movie_title,
+            'description': movie_description,
+            'cinema_amount': len(cinema_list)
+        })
     return movie_data_list
 
 
@@ -114,7 +114,8 @@ if __name__ == '__main__':
     try:
         ongoing_movies_list = parse_afisha_list()
 
-        pool = ThreadPool(8)
+        thread_amount = 8
+        pool = ThreadPool(thread_amount)
         full_movies_data_list = pool.map(partial(thread_update_movie_info,
                                                  min_cinema_threshold=min_cinema_threshold),
                                          ongoing_movies_list)
